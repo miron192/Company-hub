@@ -15,6 +15,7 @@ interface FeedPostProps {
     avatar: string;
   };
   image: string;
+  title: string;
   likes: number;
   liked?: boolean;
 }

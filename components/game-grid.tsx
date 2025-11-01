@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Gamepad2 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 // Sample game data - replace with your actual games
 const games = [
@@ -17,6 +18,7 @@ const games = [
     description: "Guess the word!",
     image: "/wordle.jpeg",
     players: "1",
+    link: "http://wordle-hackathon-veghes-w8vd.vercel.app/",
   },
   {
     id: 2,
@@ -24,6 +26,7 @@ const games = [
     description: "Fun and challenging word puzzles",
     image: "/wordgame.jpeg",
     players: "1",
+    link: "https://words-hackathon-veghes.vercel.app/",
   },
   {
     id: 3,
@@ -31,6 +34,7 @@ const games = [
     description: "Test your memory with this fun card matching game!",
     image: "/memory.jpeg",
     players: "1",
+    link: "https://memory-hackathon-veghes-mmcx.vercel.app/", // înlocuiește cu linkul real când îl ai
   },
   {
     id: 4,
@@ -38,6 +42,7 @@ const games = [
     description: "Drag the path to the goal!",
     image: "/path.jpeg",
     players: "1",
+    link: "https://wordle-hackathon-veghes-w8vd.vercel.app/",
   },
 ];
 
@@ -69,7 +74,9 @@ export function GameGrid() {
               <span className="text-sm text-muted-foreground">
                 Players: {game.players}
               </span>
-              <Button>Play Now</Button>
+              <Link href={game.link} target="_blank" rel="noopener noreferrer">
+                <Button className="cursor-pointer">Play Now</Button>
+              </Link>
             </div>
           </CardContent>
         </Card>

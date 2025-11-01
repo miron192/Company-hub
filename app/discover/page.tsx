@@ -24,11 +24,6 @@ export default async function Discover() {
               >
                 {/* 🔹 Info despre creator */}
                 <div className="flex items-center gap-3">
-                  <img
-                    src={m.creator?.image || "/default-avatar.png"}
-                    alt={m.creator?.name || "User"}
-                    className="h-10 w-10 rounded-full object-cover"
-                  />
                   <div>
                     <p className="font-semibold">{m.title}</p>
                     <p className="text-sm text-muted-foreground">

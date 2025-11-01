@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client"; // 👈 import client-side BetterAuth
@@ -108,9 +107,6 @@ export function Navbar() {
               <div className="flex items-center gap-3 pl-3 border-l border-border">
                 <Link href="/profile">
                   <div className="hidden sm:block text-right">
-                    <p className="text-sm font-medium leading-none">
-                      {user.name || "User"}
-                    </p>
                     <p className="text-xs text-muted-foreground mt-1">
                       {user.email}
                     </p>

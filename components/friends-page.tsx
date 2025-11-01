@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Search, UserMinus, Users } from "lucide-react";
 
 type Friend = {
@@ -21,12 +20,19 @@ type Friend = {
 export default function FriendsPage() {
   const [friends, setFriends] = useState<Friend[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFriends = async () => {
-      const res = await fetch("/api/friends");
-      const data = await res.json();
-      setFriends(data.friends || []);
+      try {
+        const res = await fetch("/api/friends");
+        const data = await res.json();
+        setFriends(data.friends || []);
+      } catch (err) {
+        console.error("❌ Eroare la fetch friends:", err);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchFriends();
   }, []);
@@ -45,7 +51,7 @@ export default function FriendsPage() {
           <div className="flex items-center gap-3 mb-2">
             <Users className="h-8 w-8" />
             <h1 className="text-3xl font-semibold tracking-tight text-balance">
-              Friends
+              Colleagues
             </h1>
           </div>
           <p className="text-muted-foreground text-pretty">
@@ -67,8 +73,23 @@ export default function FriendsPage() {
           </div>
         </div>
 
-        {/* Results */}
-        {filteredFriends.length === 0 ? (
+        {/* Loading */}
+        {loading ? (
+          <div className="space-y-4">
+            {[...Array(4)].map((_, i) => (
+              <Card key={i} className="p-4 flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <Skeleton className="h-12 w-12 rounded-full" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-3 w-48" />
+                  </div>
+                </div>
+                <Skeleton className="h-8 w-24 rounded-md" />
+              </Card>
+            ))}
+          </div>
+        ) : filteredFriends.length === 0 ? (
           <Card className="p-12 text-center">
             <p className="text-muted-foreground">No colleagues found</p>
           </Card>

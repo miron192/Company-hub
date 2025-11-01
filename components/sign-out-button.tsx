@@ -10,15 +10,15 @@ export default function SignOutButton() {
   const handleSignOut = async () => {
     try {
       await authClient.signOut();
-      // 🔄 forțează revalidarea datelor de autentificare în App Router
-      router.refresh(); // actualizează componentele care depind de sesiune
+      // 🔄 Navighează către homepage după logout
+      router.push("/");
     } catch (error) {
       console.error("❌ Eroare la sign out:", error);
     }
   };
 
   return (
-    <Button variant="destructive" onClick={handleSignOut} className=" mx-auto">
+    <Button variant="destructive" onClick={handleSignOut} className="mx-auto">
       Sign Out
     </Button>
   );

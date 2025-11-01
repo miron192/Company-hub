@@ -12,6 +12,7 @@ export async function getPosts() {
             select: {
               departament: true,
               profileImage: true,
+              position: true,
             },
           },
         },
