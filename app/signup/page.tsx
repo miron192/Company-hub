@@ -41,7 +41,7 @@ export default function SignupPage() {
       }
 
       console.log("✅ User created successfully!");
-      window.location.href = "/dashboard";
+      window.location.href = "/";
     } catch (err: any) {
       console.error("❌ Signup error:", err);
       alert(err.message || "Something went wrong.");

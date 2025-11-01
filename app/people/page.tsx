@@ -1,4 +1,4 @@
-import { FriendsPage } from "@/components/friends-page";
+import FriendsPage from "@/components/friends-page";
 
 export default function People() {
   return (

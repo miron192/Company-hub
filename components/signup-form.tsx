@@ -40,7 +40,7 @@ export default function SignupForm() {
           position: formData.position,
           departament: formData.department, // matches DB field
           profileImage: formData.profileImage,
-          callbackURL: "/dashboard",
+          callbackURL: "/",
         }),
       });
 
@@ -54,7 +54,7 @@ export default function SignupForm() {
 
       if (res.ok) {
         console.log("✅ User created:", data);
-        window.location.href = "/dashboard";
+        window.location.href = "/";
       } else {
         alert(`❌ ${data?.message || "Signup failed"}`);
       }

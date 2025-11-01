@@ -31,7 +31,7 @@ export default function LoginForm() {
 
       if (res.ok) {
         console.log("✅ Logged in:", data);
-        window.location.href = "/dashboard";
+        window.location.href = "/";
       } else {
         alert(`❌ ${data?.message || "Invalid email or password"}`);
       }

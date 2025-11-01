@@ -1,3 +1,7 @@
+//////////////////////////////////////////////////////////////
+// ⚙️ GENERATOR & DATASOURCE
+//////////////////////////////////////////////////////////////
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,7 +12,7 @@ datasource db {
 }
 
 //////////////////////////////////////////////////////////////
-// 🔐 Modelele BetterAuth (nu le modifici)
+// 🔐 MODELE BETTERAUTH (NU LE MODIFICI)
 //////////////////////////////////////////////////////////////
 
 model User {
@@ -21,7 +25,7 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  // 🔹 Relații
+  // 🔹 Relații standard BetterAuth
   sessions       Session[]
   accounts       Account[]
 
@@ -29,6 +33,10 @@ model User {
   posts          Post[]
   likes          Like[]
   profile        UserProfile?
+
+  // 🔹 Relații pentru Meeting-uri
+  meetingsCreated     Meeting[]             @relation("MeetingsCreated")
+  meetingParticipants MeetingParticipant[]
 
   @@map("user")
 }
@@ -79,13 +87,13 @@ model Verification {
 }
 
 //////////////////////////////////////////////////////////////
-// 🧾 PROFIL USER (detalii extra)
+// 🧾 PROFIL USER (DETALII EXTRA)
 //////////////////////////////////////////////////////////////
 
 model UserProfile {
-  id           String  @id @default(cuid())
-  userId       String  @unique
-  user         User    @relation(fields: [userId], references: [id])
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id])
   company      String?
   position     String?
   departament  String?
@@ -105,7 +113,7 @@ model Post {
   id          String    @id @default(cuid())
   title       String
   content     String?
-  imageUrl    String?   
+  imageUrl    String?
   publicId    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -133,4 +141,41 @@ model Like {
 
   @@unique([userId, postId])
   @@map("like")
+}
+
+//////////////////////////////////////////////////////////////
+// 📅 MEETING-URI
+//////////////////////////////////////////////////////////////
+
+model Meeting {
+  id           String               @id @default(cuid())
+  title        String
+  description  String?
+  date         DateTime
+  time         String?               // ⏰ text simplu pentru ora (ex: "18:30")
+  location     String?
+  createdAt    DateTime             @default(now())
+
+  // 🔹 Creatorul meeting-ului (legătură cu User)
+  userId       String
+  creator      User                 @relation("MeetingsCreated", fields: [userId], references: [id])
+
+  // 🔹 Participanții meeting-ului
+  participants MeetingParticipant[]
+
+  @@map("meeting")
+}
+
+model MeetingParticipant {
+  id         String   @id @default(cuid())
+  meetingId  String
+  userId     String
+  status     String   @default("pending") // "pending" | "accepted" | "declined"
+  joinedAt   DateTime @default(now())
+
+  meeting    Meeting  @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([meetingId, userId])
+  @@map("meeting_participant")
 }
